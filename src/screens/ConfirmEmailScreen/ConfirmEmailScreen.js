@@ -11,10 +11,17 @@ import Logo from '../../../assets/images/PlantySwap_Logo.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 const ConfirmEmailScreen = () => {
-	const [email, setEmail] = useState('');
-	const [confirmationCode, setConfirmationCode] = useState('');
+	// const [email, setEmail] = useState('');
+	// const [confirmationCode, setConfirmationCode] = useState('');
+
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
 	const { height } = useWindowDimensions();
 
@@ -44,17 +51,32 @@ const ConfirmEmailScreen = () => {
 				<Text style={styles.title}>Confirm Your Email</Text>
 
 				<Text style={styles.label}>Email</Text>
-				<CustomInput placeholder='Email' value={email} setValue={setEmail} />
-				<Text style={styles.label}>Confirmation Code*</Text>
+
 				<CustomInput
-					placeholder='Enter your confirmation code'
-					value={confirmationCode}
-					setValue={setConfirmationCode}
+					name='email'
+					placeholder='Email'
+					control={control}
+					rules={{
+						required: 'Email is required.',
+						pattern: {
+							value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+							message: 'Please enter a valid email',
+						},
+					}}
+				/>
+
+				<Text style={styles.label}>Confirmation Code*</Text>
+
+				<CustomInput
+					name='confirmation'
+					placeholder='Confirmation Code'
+					control={control}
+					rules={{ required: 'Confirmation Code is required.' }}
 				/>
 				<CustomButton
 					text='Confirm'
 					type='PRIMARY'
-					onPress={onConfirmPressed}
+					onPress={handleSubmit(onConfirmPressed)}
 				/>
 				<CustomButton
 					text='Resend Code'

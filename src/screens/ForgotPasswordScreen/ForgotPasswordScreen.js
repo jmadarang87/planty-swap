@@ -11,15 +11,20 @@ import Logo from '../../../assets/images/PlantySwap_Logo.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 const ForgotPasswordScreen = () => {
-	const [email, setEmail] = useState('');
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
 	const { height } = useWindowDimensions();
 
 	const navigation = useNavigation();
 
-	const onSendForgotPasswordEmail = () => {
+	const onSendForgotPasswordEmail = (data) => {
 		console.warn('Reset Password');
 		navigation.navigate('NewPassword');
 	};
@@ -43,14 +48,21 @@ const ForgotPasswordScreen = () => {
 
 				<Text style={styles.label}>Email</Text>
 				<CustomInput
-					placeholder='Enter Your Email'
-					value={email}
-					setValue={setEmail}
+					name='email'
+					placeholder='Email'
+					control={control}
+					rules={{
+						required: 'Email is required.',
+						pattern: {
+							value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+							message: 'Please enter a valid email',
+						},
+					}}
 				/>
 				<CustomButton
 					text='Send'
 					type='PRIMARY'
-					onPress={onSendForgotPasswordEmail}
+					onPress={handleSubmit(onSendForgotPasswordEmail)}
 				/>
 				<CustomButton
 					text='Please Sign In / Sign Up'

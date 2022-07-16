@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	View,
 	Text,
@@ -11,18 +11,25 @@ import Logo from '../../../assets/images/PlantySwap_Logo.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 const CreateAccountScreen = () => {
-	const [userName, setUserName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
+	// const [userName, setUserName] = useState('');
+	// const [email, setEmail] = useState('');
+	// const [password, setPassword] = useState('');
+	// const [confirmPassword, setConfirmPassword] = useState('');
+
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
 	const { height } = useWindowDimensions();
 
 	const navigation = useNavigation();
 
-	const onRegisterPressed = () => {
+	const onRegisterPressed = (data) => {
 		console.warn('Registered!');
 		navigation.navigate('ConfirmEmail');
 	};
@@ -58,6 +65,59 @@ const CreateAccountScreen = () => {
 				/>
 				<Text style={styles.title}>Create Account</Text>
 				<CustomInput
+					name='username'
+					placeholder='Username'
+					control={control}
+					rules={{ required: 'Username is required.' }}
+				/>
+				<CustomInput
+					name='email'
+					placeholder='Email'
+					control={control}
+					rules={{
+						required: 'Email is required.',
+						pattern: {
+							value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+							message: 'Please enter a valid email',
+						},
+					}}
+				/>
+				<CustomInput
+					name='password'
+					placeholder='Password'
+					control={control}
+					rules={{
+						required: 'Password is required.',
+						minLength: {
+							value: 8,
+							message: 'Password should be minimum 8 characters long.',
+						},
+						maxLength: {
+							value: 12,
+							message: 'Password should not be more than 12 characters long.',
+						},
+					}}
+					secureTextEntry
+				/>
+				<CustomInput
+					name='password2'
+					placeholder='Confirm Password'
+					control={control}
+					rules={{
+						required: 'Password is required.',
+						minLength: {
+							value: 8,
+							message: 'Password should be minimum 8 characters long.',
+						},
+						maxLength: {
+							value: 12,
+							message: 'Password should not be more than 12 characters long.',
+						},
+					}}
+					secureTextEntry
+				/>
+				{/* 
+				<CustomInput
 					placeholder='Username'
 					value={userName}
 					setValue={setUserName}
@@ -77,8 +137,7 @@ const CreateAccountScreen = () => {
 					placeholder='Confirm Password'
 					value={confirmPassword}
 					setValue={setConfirmPassword}
-					secureTextEntry
-				/>
+					secureTextEntry */}
 				<Text>
 					By registering, you confirm that you accept our{' '}
 					<Text style={styles.link} onPress={onTermsOfUsePressed}>
@@ -93,7 +152,7 @@ const CreateAccountScreen = () => {
 				</Text>
 				<CustomButton
 					text='Register'
-					onPress={onRegisterPressed}
+					onPress={handleSubmit(onRegisterPressed)}
 					bgColor='#3B71F3'
 				/>
 				<CustomButton

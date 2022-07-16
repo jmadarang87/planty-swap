@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./ForgotPasswordScreen\";","map":{"version":3,"names":["default"],"sources":["/Users/jahnelmadarang/Dev/react-native/planty-swap/src/screens/ForgotPasswordScreen/index.js"],"sourcesContent":["export { default } from './ForgotPasswordScreen';\n"],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}

@@ -12,17 +12,28 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 const SignInScreen = () => {
-	const [userName, setUserName] = useState('');
-	const [password, setPassword] = useState('');
+	// const [userName, setUserName] = useState('');
+	// const [password, setPassword] = useState('');
+
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	console.log(errors);
 
 	const { height } = useWindowDimensions();
 
 	const navigation = useNavigation();
 
-	const onSignInPressed = () => {
-		console.warn('Sign In');
+	const onSignInPressed = (data) => {
+		console.log(data);
+
+		// navigation.navigate('Home');
 	};
 
 	const onForgotPasswordPressed = () => {
@@ -45,20 +56,33 @@ const SignInScreen = () => {
 				/>
 				<Text style={styles.title}>Sign In</Text>
 				<CustomInput
+					name='username'
 					placeholder='Username'
-					value={userName}
-					setValue={setUserName}
+					control={control}
+					rules={{ required: 'Username is required.' }}
 				/>
 				<CustomInput
+					name='password'
 					placeholder='Password'
-					value={password}
-					setValue={setPassword}
+					control={control}
+					rules={{
+						required: 'Password is required.',
+						minLength: {
+							value: 8,
+							message: 'Password should be minimum 8 characters long.',
+						},
+						maxLength: {
+							value: 12,
+							message: 'Password should not be more than 12 characters long.',
+						},
+					}}
 					secureTextEntry
 				/>
+
 				<CustomButton
 					text='Sign In'
-					onPress={onSignInPressed}
-					bgColor='#3B71F3'
+					onPress={handleSubmit(onSignInPressed)}
+					// bgColor='#3B71F3'
 				/>
 				<CustomButton
 					text='Forgot Password?'

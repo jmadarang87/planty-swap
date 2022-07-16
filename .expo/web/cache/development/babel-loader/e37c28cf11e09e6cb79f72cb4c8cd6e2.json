@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./ConfirmEmailScreen\";","map":{"version":3,"names":["default"],"sources":["/Users/jahnelmadarang/Dev/react-native/planty-swap/src/screens/ConfirmEmailScreen/index.js"],"sourcesContent":["export { default } from './ConfirmEmailScreen';\n"],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}
