@@ -17,14 +17,14 @@ An App to swap plants and cuttings locally.
   trying!
 
 ## What I learned
-
 - useNavigation
 - Controller
 - React Native setup with Expo
 
 ## Future Improvements
-
 - Authentication (via FirebaseAuth)
+- List plants available for trade
+- Message other users
 
 ## Preview
 <img width="429" alt="planty-swap-sign-in" src="https://user-images.githubusercontent.com/22069784/180967576-7d958d17-cba0-40fa-ac40-39ffbbf97927.png">
